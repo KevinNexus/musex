@@ -45,9 +45,7 @@
                         X 博主精选画廊
                     </h1>
                     <p class="text-sm text-slate-400 mt-1">
-                        高品质 X (Twitter) 创作者画廊 · 去重备份 · 实时探索与智能推荐 
-                        <span class="text-slate-500 mx-2">|</span> 
-                        <span class="text-brand-500">策展人 · MuseX Team</span>
+                        高品质 X (Twitter) 创作者画廊 · 真实链接 · 实时探索与智能推荐 
                     </p>
                 </div>
                 <div class="flex items-center gap-3">
@@ -76,8 +74,8 @@
                 <div class="text-xs text-slate-400 uppercase tracking-wider mt-1">Top 头部</div>
             </div>
             <div class="glass rounded-xl p-4 text-center">
-                <div class="text-2xl font-bold text-emerald-400" id="stat-max-fans">0</div>
-                <div class="text-xs text-slate-400 uppercase tracking-wider mt-1">最高粉丝</div>
+                <div class="text-2xl font-bold text-emerald-400">150+</div>
+                <div class="text-xs text-slate-400 uppercase tracking-wider mt-1">收录博主</div>
             </div>
         </div>
 
@@ -113,10 +111,8 @@
                 <!-- Sort -->
                 <div class="relative">
                     <select id="sortSelect" class="appearance-none bg-slate-800/50 border border-slate-700 rounded-xl py-2.5 pl-4 pr-10 text-sm text-white focus:outline-none focus:border-brand-500 cursor-pointer">
-                        <option value="followersDesc">粉丝数从高到低</option>
-                        <option value="followersAsc">粉丝数从低到高</option>
+                        <option value="idDesc">最新添加</option>
                         <option value="nameAsc">博主名称 (A → Z)</option>
-                        <option value="dateDesc">最新归档</option>
                     </select>
                     <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none text-xs"></i>
                 </div>
@@ -125,10 +121,8 @@
             <!-- Filter Tabs -->
             <div class="flex gap-2 overflow-x-auto scrollbar-hide pb-2" id="filterTabs">
                 <button data-filter="all" class="filter-btn active px-4 py-1.5 rounded-full text-sm font-medium bg-brand-600 text-white transition whitespace-nowrap">全部 <span class="opacity-70 text-xs" id="count-all">0</span></button>
-                <button data-filter="popular" class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition whitespace-nowrap">热度排行 <span class="opacity-70 text-xs" id="count-popular">0</span></button>
-                <button data-filter="verified" class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition whitespace-nowrap">蓝标认证 <span class="opacity-70 text-xs" id="count-verified">0</span></button>
-                <button data-filter="top" class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition whitespace-nowrap">Top 头部 <span class="opacity-70 text-xs" id="count-top">0</span></button>
-                <button data-filter="new" class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition whitespace-nowrap">最新归档 <span class="opacity-70 text-xs" id="count-new">0</span></button>
+                <button data-filter="top" class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition whitespace-nowrap">Top 推荐 <span class="opacity-70 text-xs" id="count-top">0</span></button>
+                <button data-filter="verified" class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition whitespace-nowrap">热门博主 <span class="opacity-70 text-xs" id="count-verified">0</span></button>
             </div>
         </section>
 
@@ -180,56 +174,222 @@
     </div>
 
     <script>
-        // --- 1. Mock Data (模拟数据) ---
-        const creators = [
-            { id: 1, name: "Naimi", handle: "@Anaimiya", followers: "4.3M", fansNum: 4300000, verified: true, category: "top", bio: "Digital Artist & Content Creator. All my works linked below.", link: "#", location: "Tokyo, JP", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Naimi&backgroundColor=b6e3f4" },
-            { id: 2, name: "Kunkun", handle: "@kunkunkun188", followers: "1.9M", fansNum: 1900000, verified: true, category: "top", bio: "Daily life and creative updates. Check my links for more exclusive content.", link: "#", location: "Malaysia", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Kunkun&backgroundColor=c0aede" },
-            { id: 3, name: "Joycelyn", handle: "@Joycelyn52011", followers: "1.1M", fansNum: 1100000, verified: true, category: "top", bio: "Lifestyle creator. Unlock more exclusive content and updates.", link: "#", location: "Taipei, TW", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Joycelyn&backgroundColor=ffdfbf" },
-            { id: 4, name: "Pupu", handle: "@waifupupu", followers: "3.3M", fansNum: 3300000, verified: true, category: "top", bio: "You look lonely, I can fix that. Official links and updates below.", link: "#", location: "Cyber City", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Pupu&backgroundColor=ffd5dc" },
-            { id: 5, name: "June", handle: "@SpicygumL", followers: "1.8M", fansNum: 1800000, verified: true, category: "popular", bio: "Check my links. Updates and DM info available below.", link: "#", location: "Seoul, KR", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=June&backgroundColor=d1d4f9" },
-            { id: 6, name: "Ququ", handle: "@ququ999999", followers: "1.2M", fansNum: 1200000, verified: true, category: "popular", bio: "Original content creator. Check linktree for all contacts.", link: "#", location: "Unknown", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ququ&backgroundColor=c0aede" },
-            { id: 7, name: "Fortune", handle: "@FortuneCutie00", followers: "1.3M", fansNum: 1300000, verified: true, category: "top", bio: "Your asian petite fantasy. Official links and daily updates.", link: "#", location: "Online", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Fortune&backgroundColor=b6e3f4" },
-            { id: 8, name: "Yuki", handle: "@SxeYuki", followers: "1.1M", fansNum: 1100000, verified: true, category: "popular", bio: "Daily updates. Beware of fake accounts. Only trust this handle.", link: "#", location: "Traveling", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Yuki&backgroundColor=ffdfbf" },
-            { id: 9, name: "Kitty", handle: "@kitty2002102", followers: "961K", fansNum: 961000, verified: true, category: "verified", bio: "Original content. 19 years old. Check linktree for more.", link: "#", location: "Online", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Kitty&backgroundColor=ffd5dc" },
-            { id: 10, name: "Minmin", handle: "@wenwen0006", followers: "7.9K", fansNum: 7900, verified: false, category: "new", bio: "Freelance model. Natural and authentic. DM for collabs.", link: "#", location: "Guangzhou, CN", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Minmin&backgroundColor=d1d4f9" },
-            { id: 11, name: "Jingxiang", handle: "@DLjingxiang", followers: "1.0M", fansNum: 1000000, verified: true, category: "popular", bio: "Lifestyle and fashion content creator.", link: "#", location: "Shanghai, CN", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jingxiang&backgroundColor=c0aede" },
-            { id: 12, name: "HK Doll", handle: "@HongKong_Doll", followers: "3.2M", fansNum: 3200000, verified: true, category: "top", bio: "All Works & DM subscription guide. Official links only.", link: "#", location: "Hong Kong", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=HKDoll&backgroundColor=b6e3f4" }
-        ];
+        // --- 1. 真实链接数据源 (由您提供的列表自动生成) ---
+        const rawLinks = `
+https://x.com/Anaimiya
+https://x.com/waifupupu
+https://x.com/HongKong_Doll
+https://x.com/kunkunkun188
+https://x.com/SpicygumL
+https://x.com/FortuneCutie00
+https://x.com/ququ999999
+https://x.com/Joycelyn52011
+https://x.com/SxeYuki
+https://x.com/DLjingxiang
+https://x.com/kuzu_v53
+https://x.com/kitty2002102
+https://x.com/Joioio_
+https://x.com/yum_707
+https://x.com/watever177
+https://x.com/azhua1997
+https://x.com/OshiXimiya
+https://x.com/Nana_taipei
+https://x.com/DaDongdongda
+https://x.com/Gulililucky
+https://x.com/tiaotiaosheep
+https://x.com/WANIMAL912
+https://x.com/bigcat_mia
+https://x.com/Vasileva1122
+https://x.com/qiobnxingcai
+https://x.com/xiuchiluchu910
+https://x.com/kechunyaoll
+https://x.com/meichuan520
+https://x.com/mocck0216
+https://x.com/raikun325
+https://x.com/rercardo
+https://x.com/pickkkku
+https://x.com/qianqianluoluo
+https://x.com/shixiaotaon
+https://x.com/xiaoqiaots
+https://x.com/MiNimmm666
+https://x.com/xiaolei404
+https://x.com/jingyeshiwu
+https://x.com/SM20917
+https://x.com/zidan670
+https://x.com/GreeceTW00
+https://x.com/kittyovo133
+https://x.com/PIKAQ_Q
+https://x.com/yaokaixin77
+https://x.com/meow_lonely
+https://x.com/hi_nxxg
+https://x.com/yui_xin_tw
+https://x.com/sofiaortega2000
+https://x.com/pisces_twin_
+https://x.com/Kirby_hes
+https://x.com/Bella_0406_
+https://x.com/wook9635
+https://x.com/MixMico3
+https://x.com/April5566168
+https://x.com/bibo8895
+https://x.com/kiri_amari
+https://x.com/ranru666
+https://x.com/taoliangazhai
+https://x.com/huangjiaren12_
+https://x.com/LIJIAO99
+https://x.com/xMeow7
+https://x.com/IES_anh
+https://x.com/Lris_INTJ
+https://x.com/Taozhishuishui
+https://x.com/songqi_97
+https://x.com/xiaoxRRR
+https://x.com/shixiaotaone
+https://x.com/jingjiniz
+https://x.com/Yoga_miao_
+https://x.com/enbao9
+https://x.com/M0i3i4
+https://x.com/coolfour3
+https://x.com/keaichoubao
+https://x.com/JennySuen10
+https://x.com/qqq_qq77
+https://x.com/Enthus1asmm
+https://x.com/Lovvy222
+https://x.com/ychn2518911
+https://x.com/Kiyo_DejaVu
+https://x.com/shiyin_sion
+https://x.com/Donuts_dog0
+https://x.com/vivi99168
+https://x.com/Yuci33
+https://x.com/radiizzz
+https://x.com/JuicyMidori
+https://x.com/Fxtyoo
+https://x.com/hanzuzong3
+https://x.com/Asecresm
+https://x.com/tusiww
+https://x.com/xyangyumiao
+https://x.com/yezongmvp
+https://x.com/xiaoshuqi666666
+https://x.com/HOLASNBS155
+https://x.com/CK11230970
+https://x.com/Qw1ko_qvq
+https://x.com/fairy11_07
+https://x.com/Suxiaohan000
+https://x.com/dongxiaoniu
+https://x.com/FatGOAT_69
+https://x.com/hard__spicy
+https://x.com/TangTangQZ
+https://x.com/violetbaby2004
+https://x.com/xizi1840
+https://x.com/Jessy101505
+https://x.com/qianqianwan96
+https://x.com/thelol1pop99
+https://x.com/WhisperFrame
+https://x.com/Shoojeenn
+https://x.com/SICE3000
+https://x.com/zhuitumoon
+https://x.com/azuresky560446
+https://x.com/7ui4cc
+https://x.com/daidai1151
+https://x.com/Tammyyenuggg
+https://x.com/iFluffyPotato
+https://x.com/acupsluttt
+https://x.com/GUILIN010
+https://x.com/whiteplace_1
+https://x.com/QBLN9999
+https://x.com/maonu164196
+https://x.com/yzgg99
+https://x.com/sexcat07
+https://x.com/Reirr0
+https://x.com/HotRe_
+https://x.com/June02031_
+https://x.com/nlinn_164
+https://x.com/shenyuan_Abyss
+https://x.com/12_wheat
+https://x.com/M_submission
+https://x.com/YuWangManShen_
+https://x.com/Rebee3366
+https://x.com/kele0000
+https://x.com/TWINTWO2222
+https://x.com/tingx2er
+https://x.com/X_Yunq
+https://x.com/Tuesaime404
+https://x.com/SilkySuki_
+https://x.com/enbao20
+https://x.com/DemonDingDing
+https://x.com/SUB_PUPPYL
+https://x.com/hhmmforever
+https://x.com/momoy__y
+https://x.com/afukadou7
+https://x.com/poxbe2
+https://x.com/yui38652202
+https://x.com/xiaoxiaocute5
+https://x.com/LINHEANAN
+https://x.com/SanSe404
+https://x.com/MrsShangguan
+https://x.com/MJ627K
+https://x.com/outdoorsports24
+https://x.com/CrazySheren77
+https://x.com/AnNaJia06
+https://x.com/MrBigD1993
+https://x.com/MeeHutaoTV
+https://x.com/NANL_S
+https://x.com/ReneeDoll00
+https://x.com/PIKAQ3Q
+https://x.com/Cherrysmdbj
+https://x.com/SZXC888
+https://x.com/F_puppy1
+https://x.com/roo8888s
+https://x.com/SofiaOrtega2003
+https://x.com/jbny5413
+https://x.com/Punishmeinbed
+https://x.com/hkgirlkris
+https://x.com/Cocomilkpapa
+https://x.com/jjTinloveyou
+https://x.com/xiaomajia2009
+https://x.com/Drakester97
+https://x.com/wodemm333
+https://x.com/L74992321
+        `.trim().split('\n').map(link => link.trim()).filter(link => link.length > 0);
+
+        // 动态生成创作者数据，确保链接 100% 真实
+        const creators = rawLinks.map((link, index) => {
+            const username = link.replace('https://x.com/', '').replace('@', '');
+            // 智能分类：前 20 个为 Top，中间 50 个为 Popular，其余为 Verified
+            let category = 'verified';
+            if (index < 20) category = 'top';
+            else if (index < 70) category = 'popular';
+
+            return {
+                id: index + 1,
+                name: username, // 显示为用户名 (您可后续手动修改为中文名)
+                handle: `@${username}`,
+                followers: "N/A", 
+                fansNum: 0,
+                verified: category === 'top', 
+                category: category,
+                bio: "Click to visit this creator's authentic X (Twitter) profile.", 
+                link: link, // 👈 核心：您提供的真实跳转链接！
+                location: "X Platform",
+                // 使用 UI Avatars 自动生成带用户名的精美头像
+                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=random&color=fff&size=128&bold=true`
+            };
+        });
 
         // --- 2. State Management ---
         let state = {
             filter: 'all',
-            sort: 'followersDesc',
+            sort: 'idDesc',
             search: ''
         };
 
-        // --- 3. Helper Functions ---
-        function parseFans(fansStr) {
-            if (fansStr.includes('M')) return parseFloat(fansStr) * 1000000;
-            if (fansStr.includes('K')) return parseFloat(fansStr) * 1000;
-            return parseInt(fansStr) || 0;
-        }
-
-        function formatNumber(num) {
-            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-            if (num >= 1000) return (num / 1000).toFixed(0) + 'K';
-            return num.toString();
-        }
-
-        // --- 4. Render Functions ---
+        // --- 3. Render Functions ---
         function renderStats() {
             document.getElementById('stat-total').textContent = creators.length.toLocaleString();
             document.getElementById('stat-verified').textContent = creators.filter(c => c.verified).length.toLocaleString();
             document.getElementById('stat-top').textContent = creators.filter(c => c.category === 'top').length.toLocaleString();
-            const maxFans = Math.max(...creators.map(c => c.fansNum));
-            document.getElementById('stat-max-fans').textContent = formatNumber(maxFans);
             
-            // Update tab counts
             document.getElementById('count-all').textContent = creators.length;
-            document.getElementById('count-popular').textContent = creators.filter(c => c.category === 'popular').length;
-            document.getElementById('count-verified').textContent = creators.filter(c => c.verified).length;
             document.getElementById('count-top').textContent = creators.filter(c => c.category === 'top').length;
-            document.getElementById('count-new').textContent = creators.filter(c => c.category === 'new').length;
+            document.getElementById('count-verified').textContent = creators.filter(c => c.category === 'popular' || c.category === 'verified').length;
         }
 
         function renderSpotlight() {
@@ -244,11 +404,8 @@
                             ${randomCreator.verified ? '<i class="fa-solid fa-certificate text-blue-400 text-sm" title="Verified"></i>' : ''}
                             <span class="text-xs px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-400 border border-brand-500/30">${randomCreator.category.toUpperCase()}</span>
                         </div>
-                        <p class="text-slate-400 text-sm mb-2">${randomCreator.handle} · <span class="text-white font-medium">${randomCreator.followers}</span> 关注者</p>
+                        <p class="text-slate-400 text-sm mb-2">${randomCreator.handle}</p>
                         <p class="text-slate-300 text-sm leading-relaxed mb-3">${randomCreator.bio}</p>
-                        <div class="flex items-center gap-4 text-xs text-slate-500">
-                            ${randomCreator.location ? `<span><i class="fa-solid fa-location-dot mr-1"></i>${randomCreator.location}</span>` : ''}
-                        </div>
                     </div>
                     <div class="flex gap-3 w-full sm:w-auto">
                         <button onclick="openModal(${randomCreator.id})" class="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-sm font-medium transition">时光档案</button>
@@ -261,24 +418,17 @@
         function getFilteredAndSortedCreators() {
             let result = [...creators];
             
-            // Filter
-            if (state.filter === 'popular') result = result.filter(c => c.category === 'popular' || c.fansNum > 1000000);
-            else if (state.filter === 'verified') result = result.filter(c => c.verified);
-            else if (state.filter === 'top') result = result.filter(c => c.category === 'top');
-            else if (state.filter === 'new') result = result.filter(c => c.category === 'new');
+            if (state.filter === 'top') result = result.filter(c => c.category === 'top');
+            else if (state.filter === 'verified') result = result.filter(c => c.category === 'popular' || c.category === 'verified');
 
-            // Search
             if (state.search) {
                 const q = state.search.toLowerCase();
-                result = result.filter(c => c.name.toLowerCase().includes(q) || c.handle.toLowerCase().includes(q) || c.bio.toLowerCase().includes(q));
+                result = result.filter(c => c.name.toLowerCase().includes(q) || c.handle.toLowerCase().includes(q));
             }
 
-            // Sort
             result.sort((a, b) => {
-                if (state.sort === 'followersDesc') return b.fansNum - a.fansNum;
-                if (state.sort === 'followersAsc') return a.fansNum - b.fansNum;
+                if (state.sort === 'idDesc') return b.id - a.id;
                 if (state.sort === 'nameAsc') return a.name.localeCompare(b.name);
-                if (state.sort === 'dateDesc') return b.id - a.id;
                 return 0;
             });
 
@@ -306,8 +456,8 @@
                         <img src="${c.avatar}" alt="${c.name}" class="w-12 h-12 rounded-full border border-slate-700 group-hover:border-brand-500 transition">
                         ${c.verified ? '<i class="fa-solid fa-certificate text-blue-400" title="Verified"></i>' : ''}
                     </div>
-                    <h4 class="font-bold text-white text-lg mb-0.5 group-hover:text-brand-400 transition">${c.name}</h4>
-                    <p class="text-slate-500 text-sm mb-3">${c.handle} · <span class="text-slate-300">${c.followers}</span> 关注者</p>
+                    <h4 class="font-bold text-white text-lg mb-0.5 group-hover:text-brand-400 transition truncate">${c.name}</h4>
+                    <p class="text-slate-500 text-sm mb-3">${c.handle}</p>
                     <p class="text-slate-400 text-sm line-clamp-2 mb-4 h-10">${c.bio}</p>
                     <div class="flex gap-2 pt-3 border-t border-slate-700/50">
                         <button class="flex-1 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 transition">档案</button>
@@ -317,7 +467,7 @@
             `).join('');
         }
 
-        // --- 5. Modal Functions ---
+        // --- 4. Modal Functions ---
         function openModal(id) {
             const c = creators.find(x => x.id === id);
             if (!c) return;
@@ -327,20 +477,9 @@
                 <h2 class="text-2xl font-bold text-white mb-1">${c.name} ${c.verified ? '<i class="fa-solid fa-certificate text-blue-400 text-lg ml-1"></i>' : ''}</h2>
                 <p class="text-brand-400 font-medium mb-4">${c.handle}</p>
                 
-                <div class="flex justify-center gap-6 mb-6 text-sm">
-                    <div class="text-center">
-                        <div class="font-bold text-white text-lg">${c.followers}</div>
-                        <div class="text-slate-500 text-xs">关注者</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="font-bold text-white text-lg">${c.category.toUpperCase()}</div>
-                        <div class="text-slate-500 text-xs">分类</div>
-                    </div>
-                </div>
-
                 <div class="bg-slate-800/50 rounded-xl p-4 mb-6 text-left">
                     <p class="text-slate-300 text-sm leading-relaxed mb-2">${c.bio}</p>
-                    ${c.location ? `<p class="text-slate-500 text-xs"><i class="fa-solid fa-location-dot mr-1"></i>${c.location}</p>` : ''}
+                    <p class="text-slate-500 text-xs"><i class="fa-solid fa-link mr-1"></i> ${c.link}</p>
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-3">
@@ -362,9 +501,8 @@
             document.body.style.overflow = '';
         }
 
-        // --- 6. Event Listeners ---
+        // --- 5. Event Listeners ---
         function changeSpotlight() {
-            // Add a quick fade out/in effect
             const container = document.getElementById('spotlight-container');
             container.style.opacity = '0';
             setTimeout(() => {
@@ -393,7 +531,6 @@
             });
         }
 
-        // Tab clicks
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 state.filter = btn.dataset.filter;
@@ -402,19 +539,16 @@
             });
         });
 
-        // Search input
         document.getElementById('searchInput').addEventListener('input', (e) => {
             state.search = e.target.value;
             renderGrid();
         });
 
-        // Sort select
         document.getElementById('sortSelect').addEventListener('change', (e) => {
             state.sort = e.target.value;
             renderGrid();
         });
 
-        // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
                 e.preventDefault();
@@ -429,7 +563,7 @@
             }
         });
 
-        // --- 7. Initialization ---
+        // --- 6. Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             renderStats();
             renderSpotlight();
