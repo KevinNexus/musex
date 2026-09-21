@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="MuseX · X Creator Discovery — 独立创作者发现与资料目录">
+<title>MuseX — X Creator Discovery</title>
+<style>
+:root{
+  --bg:#08090c;--panel:#101217;--panel2:#151820;--line:#242833;
+  --text:#f4f5f7;--muted:#8e95a3;--accent:#fff;--shadow:0 20px 60px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:
+ radial-gradient(circle at 15% -10%,rgba(255,255,255,.08),transparent 30%),
+ radial-gradient(circle at 90% 10%,rgba(120,130,160,.08),transparent 28%),
+ var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+.container{width:min(1180px,calc(100% - 32px));margin:auto}
+
+/* top */
+header{position:sticky;top:0;z-index:20;background:rgba(8,9,12,.78);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{font-weight:800;font-size:22px;letter-spacing:-.04em}
+.logo span{color:#8f96a3;font-weight:500}
+.navlinks{display:flex;gap:8px}
+.navlinks button,.ghost{border:1px solid transparent;background:transparent;color:var(--muted);padding:9px 13px;border-radius:10px}
+.navlinks button:hover,.ghost:hover{color:var(--text);background:var(--panel)}
+.mobile-menu{display:none}
+
+/* hero */
+.hero{padding:86px 0 46px;text-align:center}
+.eyebrow{font-size:11px;letter-spacing:.22em;color:#8f96a3;text-transform:uppercase;margin-bottom:18px}
+h1{font-size:clamp(46px,8vw,88px);line-height:.95;letter-spacing:-.07em;margin:0}
+.hero p{max-width:620px;margin:24px auto 30px;color:var(--muted);font-size:15px;line-height:1.8}
+.search{max-width:720px;margin:auto;display:flex;align-items:center;background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:16px;padding:7px;box-shadow:var(--shadow)}
+.search svg{margin:0 12px;color:#747b88;flex:none}
+.search input{width:100%;border:0;outline:0;background:transparent;color:var(--text);font-size:15px}
+.search input::placeholder{color:#666d79}
+.search button{border:0;background:#f2f3f5;color:#090a0d;border-radius:11px;padding:11px 17px;font-weight:700}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin:22px 0 54px}
+.stat{background:var(--panel);padding:23px;text-align:center}
+.stat b{display:block;font-size:24px;margin-bottom:5px}.stat span{font-size:12px;color:var(--muted)}
+
+/* section */
+.section-head{display:flex;justify-content:space-between;align-items:end;margin:42px 0 18px}
+.section-head h2{font-size:22px;letter-spacing:-.03em;margin:0}
+.section-head p{font-size:12px;color:var(--muted);margin:0}
+.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:3px;margin-bottom:22px}
+.tabs button{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:9px 14px;border-radius:999px}
+.tabs button.active,.tabs button:hover{background:#f2f3f5;color:#090a0d;border-color:#f2f3f5}
+
+/* featured */
+.featured{display:grid;grid-template-columns:170px 1fr auto;gap:26px;align-items:center;background:linear-gradient(120deg,#12151b,#0d0f13);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:var(--shadow)}
+.featured-avatar{width:170px;height:170px;border-radius:20px;object-fit:cover;background:#20242c}
+.featured h3{font-size:26px;margin:5px 0 4px}.handle{color:#8f96a3;font-size:14px}
+.bio{color:#aab0ba;line-height:1.7;font-size:14px;max-width:650px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.badge{font-size:11px;padding:6px 9px;border-radius:999px;background:#1a1e26;color:#b9bec8;border:1px solid #292e39}
+.primary{display:inline-flex;align-items:center;gap:8px;background:#f2f3f5;color:#090a0d;padding:11px 15px;border-radius:11px;font-weight:700;border:0}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:rgba(16,18,23,.88);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:.25s transform,.25s border-color,.25s box-shadow}
+.card:hover{transform:translateY(-4px);border-color:#3a404c;box-shadow:0 18px 45px rgba(0,0,0,.28)}
+.cover{height:105px;background:linear-gradient(135deg,#20242d,#11131a);position:relative}
+.cover span{position:absolute;right:12px;top:12px;font-size:10px;color:#c4c8d0;background:rgba(0,0,0,.35);padding:5px 8px;border-radius:999px}
+.cardbody{padding:0 17px 17px}
+.avatar{width:68px;height:68px;border-radius:50%;object-fit:cover;border:4px solid var(--panel);margin-top:-34px;position:relative;background:#272c35}
+.name{font-weight:750;margin-top:9px}.handle2{font-size:12px;color:#777e8b;margin-top:3px}
+.cardbio{font-size:12px;color:#9ca3af;line-height:1.55;height:38px;margin:11px 0;overflow:hidden}
+.cardfoot{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.followers{font-size:11px;color:#858c98}.view{font-size:11px;padding:7px 10px;border:1px solid var(--line);border-radius:9px;color:#dce0e6}
+.empty{display:none;text-align:center;padding:70px 20px;color:var(--muted);border:1px dashed var(--line);border-radius:18px}
+
+/* footer */
+footer{border-top:1px solid var(--line);margin-top:80px;padding:30px 0 45px;color:#6f7683;font-size:12px}
+.footerrow{display:flex;justify-content:space-between;gap:20px}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;place-items:center;z-index:50;padding:20px}
+.modal.open{display:grid}.modalbox{width:min(520px,100%);background:#111319;border:1px solid var(--line);border-radius:22px;padding:25px;box-shadow:var(--shadow)}
+.modalhead{display:flex;justify-content:space-between;align-items:center}.close{border:0;background:#1b1e25;color:#aaa;border-radius:10px;width:34px;height:34px}
+.detail{display:flex;gap:18px;align-items:center;margin:20px 0}.detail img{width:86px;height:86px;border-radius:18px;object-fit:cover}
+.detail h3{margin:0 0 5px}.detail p{color:var(--muted);line-height:1.7;font-size:13px}
+kbd{font-size:10px;padding:3px 6px;border:1px solid #343944;border-radius:5px;color:#9097a4}
+
+/* responsive */
+@media(max-width:800px){
+ .navlinks{display:none}.mobile-menu{display:block}
+ .hero{padding-top:60px}
+ .featured{grid-template-columns:90px 1fr}.featured-avatar{width:90px;height:90px;border-radius:15px}
+ .featured .primary{grid-column:1/-1;justify-content:center}
+ .grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:540px){
+ .container{width:min(100% - 22px,1180px)}
+ .stats{grid-template-columns:1fr}.stat{padding:15px}
+ .grid{grid-template-columns:1fr}
+ .featured{grid-template-columns:75px 1fr;padding:16px}.featured-avatar{width:75px;height:75px}
+ .featured h3{font-size:20px}.bio{font-size:13px}
+ .search button{padding:10px 12px}
+ .footerrow{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a class="logo" href="#">Muse<span>X</span></a>
+    <div class="navlinks">
+      <button onclick="filterCards('all',this)">Explore</button>
+      <button onclick="filterCards('popular',this)">Popular</button>
+      <button onclick="filterCards('verified',this)">Verified</button>
+      <button onclick="randomPick()">Random</button>
+    </div>
+    <button class="ghost mobile-menu" onclick="randomPick()">Random ↗</button>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div class="eyebrow">X Creator Discovery</div>
+    <h1>MuseX</h1>
+    <p>Discover interesting creators, profiles and personalities on X — curated into a clean, searchable digital gallery.</p>
+    <div class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input id="search" placeholder="Search creators, @username or keywords..." autocomplete="off">
+      <button onclick="runSearch()">Search</button>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><b id="total">0</b><span>CREATORS INDEXED</span></div>
+    <div class="stat"><b id="verifiedCount">0</b><span>VERIFIED PROFILES</span></div>
+    <div class="stat"><b id="topFollowers">0</b><span>TOP FOLLOWERS</span></div>
+  </section>
+
+  <div class="section-head">
+    <div><h2>Today's Feature</h2><p>One profile worth discovering</p></div>
+    <button class="ghost" onclick="randomPick()">↻ Change</button>
+  </div>
+  <section id="featured" class="featured"></section>
+
+  <div class="section-head">
+    <div><h2>Creator Gallery</h2><p id="resultCount"></p></div>
+  </div>
+  <div class="tabs" id="tabs">
+    <button class="active" data-filter="all">All</button>
+    <button data-filter="popular">Popular</button>
+    <button data-filter="verified">Verified</button>
+    <button data-filter="creator">Creator</button>
+    <button data-filter="fashion">Fashion</button>
+    <button data-filter="art">Art</button>
+    <button data-filter="tech">Tech</button>
+    <button data-filter="lifestyle">Lifestyle</button>
+  </div>
+  <section id="grid" class="grid"></section>
+  <div id="empty" class="empty">No creators found. Try another keyword.</div>
+</main>
+
+<footer>
+  <div class="container footerrow">
+    <span>© 2026 MuseX · X Creator Discovery</span>
+    <span>Press <kbd>/</kbd> to search · <kbd>R</kbd> randomize</span>
+  </div>
+</footer>
+
+<div id="modal" class="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modalbox">
+    <div class="modalhead"><strong>Creator Profile</strong><button class="close" onclick="closeModal()">×</button></div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+const creators=[
+ {name:"Luna",handle:"@luna_demo",followers:1280000,verified:true,cat:["creator","fashion"],bio:"Digital creator · fashion · lifestyle",img:"https://i.pravatar.cc/300?img=47"},
+ {name:"Mia",handle:"@mia_demo",followers:842000,verified:true,cat:["creator","lifestyle"],bio:"Creator & photographer · Tokyo / NYC",img:"https://i.pravatar.cc/300?img=32"},
+ {name:"Avery",handle:"@avery_demo",followers:618000,verified:false,cat:["art","creator"],bio:"Visual artist · digital culture · design",img:"https://i.pravatar.cc/300?img=44"},
+ {name:"Sora",handle:"@sora_demo",followers:493000,verified:true,cat:["fashion","lifestyle"],bio:"Fashion, travel and everyday moments.",img:"https://i.pravatar.cc/300?img=49"},
+ {name:"Nina",handle:"@nina_demo",followers:356000,verified:false,cat:["creator","art"],bio:"Illustration · photography · creative life",img:"https://i.pravatar.cc/300?img=25"},
+ {name:"Eva",handle:"@eva_demo",followers:281000,verified:true,cat:["fashion","creator"],bio:"Independent creator · style & culture",img:"https://i.pravatar.cc/300?img=23"},
+ {name:"Mika",handle:"@mika_demo",followers:195000,verified:false,cat:["tech","creator"],bio:"Technology, AI and internet culture.",img:"https://i.pravatar.cc/300?img=45"},
+ {name:"Iris",handle:"@iris_demo",followers:143000,verified:false,cat:["art","lifestyle"],bio:"Artist / photographer / visual storyteller",img:"https://i.pravatar.cc/300?img=48"},
+ {name:"Zoey",handle:"@zoey_demo",followers:97000,verified:true,cat:["lifestyle","creator"],bio:"Lifestyle creator · books · travel",img:"https://i.pravatar.cc/300?img=31"}
+];
+
+let currentFilter="all";
+const fmt=n=>n>=1e6?(n/1e6).toFixed(2)+"M":n>=1e3?(n/1e3).toFixed(n>=1e5?0:1)+"K":n;
+
+function renderStats(){
+ document.getElementById("total").textContent=creators.length;
+ document.getElementById("verifiedCount").textContent=creators.filter(x=>x.verified).length;
+ document.getElementById("topFollowers").textContent=fmt(Math.max(...creators.map(x=>x.followers)));
+}
+function matches(c,filter){
+ if(filter==="all")return true;
+ if(filter==="popular")return c.followers>=300000;
+ if(filter==="verified")return c.verified;
+ return c.cat.includes(filter);
+}
+function render(){
+ const q=document.getElementById("search").value.trim().toLowerCase();
+ let arr=creators.filter(c=>matches(c,currentFilter));
+ if(q)arr=arr.filter(c=>(c.name+" "+c.handle+" "+c.bio+" "+c.cat.join(" ")).toLowerCase().includes(q));
+ const grid=document.getElementById("grid");
+ grid.innerHTML=arr.map((c,i)=>`
+  <article class="card" onclick="openModal(${creators.indexOf(c)})">
+   <div class="cover"><span>${c.verified?"✓ VERIFIED":"CREATOR"}</span></div>
+   <div class="cardbody">
+    <img class="avatar" src="${c.img}" alt="">
+    <div class="name">${c.name}${c.verified?" ✓":""}</div>
+    <div class="handle2">${c.handle}</div>
+    <div class="cardbio">${c.bio}</div>
+    <div class="cardfoot"><span class="followers">${fmt(c.followers)} followers</span><span class="view">View profile →</span></div>
+   </div>
+  </article>`).join("");
+ document.getElementById("empty").style.display=arr.length?"none":"block";
+ document.getElementById("resultCount").textContent=arr.length+" profiles";
+}
+function renderFeatured(c){
+ document.getElementById("featured").innerHTML=`
+ <img class="featured-avatar" src="${c.img}" alt="">
+ <div>
+   <div class="eyebrow">FEATURED CREATOR</div>
+   <h3>${c.name}</h3><div class="handle">${c.handle} · ${fmt(c.followers)} followers</div>
+   <div class="meta">${c.cat.map(x=>`<span class="badge">${x}</span>`).join("")}${c.verified?'<span class="badge">✓ Verified</span>':''}</div>
+   <div class="bio">${c.bio}</div>
+ </div>
+ <button class="primary" onclick="openModal(${creators.indexOf(c)})">View on X ↗</button>`;
+}
+function filterCards(filter,btn){
+ currentFilter=filter;
+ document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("active",b.dataset.filter===filter));
+ render();
+}
+function randomPick(){renderFeatured(creators[Math.floor(Math.random()*creators.length)])}
+function runSearch(){render();document.getElementById("grid").scrollIntoView({behavior:"smooth",block:"start"})}
+function openModal(i){
+ const c=creators[i];
+ document.getElementById("modalContent").innerHTML=`
+ <div class="detail"><img src="${c.img}"><div><h3>${c.name}</h3><span class="handle">${c.handle}</span><p>${fmt(c.followers)} followers · ${c.verified?"Verified":"Creator"}</p></div></div>
+ <p style="color:#aab0ba;line-height:1.8">${c.bio}</p>
+ <div class="meta">${c.cat.map(x=>`<span class="badge">${x}</span>`).join("")}</div>
+ <a class="primary" style="margin-top:8px" href="https://x.com/" target="_blank" rel="noopener">Open X ↗</a>`;
+ document.getElementById("modal").classList.add("open");
+}
+function closeModal(){document.getElementById("modal").classList.remove("open")}
+document.getElementById("search").addEventListener("input",render);
+document.getElementById("search").addEventListener("keydown",e=>{if(e.key==="Enter")runSearch()});
+document.getElementById("tabs").addEventListener("click",e=>{if(e.target.dataset.filter)filterCards(e.target.dataset.filter,e.target)});
+document.addEventListener("keydown",e=>{
+ if(e.key==="/" && document.activeElement!==document.getElementById("search")){e.preventDefault();document.getElementById("search").focus()}
+ if(e.key.toLowerCase()==="r" && document.activeElement!==document.getElementById("search"))randomPick();
+ if(e.key==="Escape")closeModal();
+});
+renderStats();render();randomPick();
+</script>
+</body>
+</html>
