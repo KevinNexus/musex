@@ -1,267 +1,440 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="description" content="MuseX · X Creator Discovery — 独立创作者发现与资料目录">
-<title>MuseX — X Creator Discovery</title>
-<style>
-:root{
-  --bg:#08090c;--panel:#101217;--panel2:#151820;--line:#242833;
-  --text:#f4f5f7;--muted:#8e95a3;--accent:#fff;--shadow:0 20px 60px rgba(0,0,0,.35);
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:
- radial-gradient(circle at 15% -10%,rgba(255,255,255,.08),transparent 30%),
- radial-gradient(circle at 90% 10%,rgba(120,130,160,.08),transparent 28%),
- var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
-button,input{font:inherit}
-button{cursor:pointer}
-a{color:inherit;text-decoration:none}
-.container{width:min(1180px,calc(100% - 32px));margin:auto}
-
-/* top */
-header{position:sticky;top:0;z-index:20;background:rgba(8,9,12,.78);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06)}
-.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.logo{font-weight:800;font-size:22px;letter-spacing:-.04em}
-.logo span{color:#8f96a3;font-weight:500}
-.navlinks{display:flex;gap:8px}
-.navlinks button,.ghost{border:1px solid transparent;background:transparent;color:var(--muted);padding:9px 13px;border-radius:10px}
-.navlinks button:hover,.ghost:hover{color:var(--text);background:var(--panel)}
-.mobile-menu{display:none}
-
-/* hero */
-.hero{padding:86px 0 46px;text-align:center}
-.eyebrow{font-size:11px;letter-spacing:.22em;color:#8f96a3;text-transform:uppercase;margin-bottom:18px}
-h1{font-size:clamp(46px,8vw,88px);line-height:.95;letter-spacing:-.07em;margin:0}
-.hero p{max-width:620px;margin:24px auto 30px;color:var(--muted);font-size:15px;line-height:1.8}
-.search{max-width:720px;margin:auto;display:flex;align-items:center;background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:16px;padding:7px;box-shadow:var(--shadow)}
-.search svg{margin:0 12px;color:#747b88;flex:none}
-.search input{width:100%;border:0;outline:0;background:transparent;color:var(--text);font-size:15px}
-.search input::placeholder{color:#666d79}
-.search button{border:0;background:#f2f3f5;color:#090a0d;border-radius:11px;padding:11px 17px;font-weight:700}
-
-/* stats */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin:22px 0 54px}
-.stat{background:var(--panel);padding:23px;text-align:center}
-.stat b{display:block;font-size:24px;margin-bottom:5px}.stat span{font-size:12px;color:var(--muted)}
-
-/* section */
-.section-head{display:flex;justify-content:space-between;align-items:end;margin:42px 0 18px}
-.section-head h2{font-size:22px;letter-spacing:-.03em;margin:0}
-.section-head p{font-size:12px;color:var(--muted);margin:0}
-.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:3px;margin-bottom:22px}
-.tabs button{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:9px 14px;border-radius:999px}
-.tabs button.active,.tabs button:hover{background:#f2f3f5;color:#090a0d;border-color:#f2f3f5}
-
-/* featured */
-.featured{display:grid;grid-template-columns:170px 1fr auto;gap:26px;align-items:center;background:linear-gradient(120deg,#12151b,#0d0f13);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:var(--shadow)}
-.featured-avatar{width:170px;height:170px;border-radius:20px;object-fit:cover;background:#20242c}
-.featured h3{font-size:26px;margin:5px 0 4px}.handle{color:#8f96a3;font-size:14px}
-.bio{color:#aab0ba;line-height:1.7;font-size:14px;max-width:650px}
-.meta{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
-.badge{font-size:11px;padding:6px 9px;border-radius:999px;background:#1a1e26;color:#b9bec8;border:1px solid #292e39}
-.primary{display:inline-flex;align-items:center;gap:8px;background:#f2f3f5;color:#090a0d;padding:11px 15px;border-radius:11px;font-weight:700;border:0}
-
-/* cards */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.card{background:rgba(16,18,23,.88);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:.25s transform,.25s border-color,.25s box-shadow}
-.card:hover{transform:translateY(-4px);border-color:#3a404c;box-shadow:0 18px 45px rgba(0,0,0,.28)}
-.cover{height:105px;background:linear-gradient(135deg,#20242d,#11131a);position:relative}
-.cover span{position:absolute;right:12px;top:12px;font-size:10px;color:#c4c8d0;background:rgba(0,0,0,.35);padding:5px 8px;border-radius:999px}
-.cardbody{padding:0 17px 17px}
-.avatar{width:68px;height:68px;border-radius:50%;object-fit:cover;border:4px solid var(--panel);margin-top:-34px;position:relative;background:#272c35}
-.name{font-weight:750;margin-top:9px}.handle2{font-size:12px;color:#777e8b;margin-top:3px}
-.cardbio{font-size:12px;color:#9ca3af;line-height:1.55;height:38px;margin:11px 0;overflow:hidden}
-.cardfoot{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.followers{font-size:11px;color:#858c98}.view{font-size:11px;padding:7px 10px;border:1px solid var(--line);border-radius:9px;color:#dce0e6}
-.empty{display:none;text-align:center;padding:70px 20px;color:var(--muted);border:1px dashed var(--line);border-radius:18px}
-
-/* footer */
-footer{border-top:1px solid var(--line);margin-top:80px;padding:30px 0 45px;color:#6f7683;font-size:12px}
-.footerrow{display:flex;justify-content:space-between;gap:20px}
-
-/* modal */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;place-items:center;z-index:50;padding:20px}
-.modal.open{display:grid}.modalbox{width:min(520px,100%);background:#111319;border:1px solid var(--line);border-radius:22px;padding:25px;box-shadow:var(--shadow)}
-.modalhead{display:flex;justify-content:space-between;align-items:center}.close{border:0;background:#1b1e25;color:#aaa;border-radius:10px;width:34px;height:34px}
-.detail{display:flex;gap:18px;align-items:center;margin:20px 0}.detail img{width:86px;height:86px;border-radius:18px;object-fit:cover}
-.detail h3{margin:0 0 5px}.detail p{color:var(--muted);line-height:1.7;font-size:13px}
-kbd{font-size:10px;padding:3px 6px;border:1px solid #343944;border-radius:5px;color:#9097a4}
-
-/* responsive */
-@media(max-width:800px){
- .navlinks{display:none}.mobile-menu{display:block}
- .hero{padding-top:60px}
- .featured{grid-template-columns:90px 1fr}.featured-avatar{width:90px;height:90px;border-radius:15px}
- .featured .primary{grid-column:1/-1;justify-content:center}
- .grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:540px){
- .container{width:min(100% - 22px,1180px)}
- .stats{grid-template-columns:1fr}.stat{padding:15px}
- .grid{grid-template-columns:1fr}
- .featured{grid-template-columns:75px 1fr;padding:16px}.featured-avatar{width:75px;height:75px}
- .featured h3{font-size:20px}.bio{font-size:13px}
- .search button{padding:10px 12px}
- .footerrow{flex-direction:column}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MuseX — X Creator Discovery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0f172a', 800: '#1e293b', 700: '#334155' },
+                        brand: { 500: '#6366f1', 600: '#4f46e5' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.4); border-color: rgba(99, 102, 241, 0.5); }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-<body>
+<body class="antialiased min-h-screen flex flex-col">
 
-<header>
-  <div class="container nav">
-    <a class="logo" href="#">Muse<span>X</span></a>
-    <div class="navlinks">
-      <button onclick="filterCards('all',this)">Explore</button>
-      <button onclick="filterCards('popular',this)">Popular</button>
-      <button onclick="filterCards('verified',this)">Verified</button>
-      <button onclick="randomPick()">Random</button>
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-dark-900/80 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-xs font-bold tracking-widest text-brand-500 uppercase">Curated Discovery Vault</span>
+                    </div>
+                    <h1 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+                        X 博主精选画廊
+                    </h1>
+                    <p class="text-sm text-slate-400 mt-1">
+                        高品质 X (Twitter) 创作者画廊 · 去重备份 · 实时探索与智能推荐 
+                        <span class="text-slate-500 mx-2">|</span> 
+                        <span class="text-brand-500">策展人 · MuseX Team</span>
+                    </p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="changeSpotlight()" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 transition text-sm font-medium">
+                        <i class="fa-solid fa-shuffle text-brand-500"></i> Random ↗
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+
+        <!-- Stats Bar -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="glass rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-white" id="stat-total">0</div>
+                <div class="text-xs text-slate-400 uppercase tracking-wider mt-1">归档总数</div>
+            </div>
+            <div class="glass rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-blue-400" id="stat-verified">0</div>
+                <div class="text-xs text-slate-400 uppercase tracking-wider mt-1">蓝标认证</div>
+            </div>
+            <div class="glass rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-brand-500" id="stat-top">0</div>
+                <div class="text-xs text-slate-400 uppercase tracking-wider mt-1">Top 头部</div>
+            </div>
+            <div class="glass rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-emerald-400" id="stat-max-fans">0</div>
+                <div class="text-xs text-slate-400 uppercase tracking-wider mt-1">最高粉丝</div>
+            </div>
+        </div>
+
+        <!-- Today's Feature -->
+        <section class="glass rounded-2xl p-6 md:p-8 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-brand-500/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-star text-yellow-400"></i> 今日精选 Spotlight
+                    </h2>
+                    <p class="text-slate-400 text-sm mt-1">One profile worth discovering</p>
+                </div>
+                <button onclick="changeSpotlight()" class="text-sm text-brand-400 hover:text-brand-300 flex items-center gap-2 transition">
+                    <i class="fa-solid fa-rotate"></i> 换一位推荐
+                </button>
+            </div>
+            <div id="spotlight-container" class="fade-in">
+                <!-- Spotlight content injected by JS -->
+            </div>
+        </section>
+
+        <!-- Controls: Search, Filter, Sort -->
+        <section class="space-y-4">
+            <div class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
+                <!-- Search -->
+                <div class="relative w-full md:w-96 group">
+                    <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-brand-500 transition"></i>
+                    <input type="text" id="searchInput" placeholder="搜索创作者 (按 / 聚焦)..." 
+                        class="w-full bg-slate-800/50 border border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition">
+                </div>
+                
+                <!-- Sort -->
+                <div class="relative">
+                    <select id="sortSelect" class="appearance-none bg-slate-800/50 border border-slate-700 rounded-xl py-2.5 pl-4 pr-10 text-sm text-white focus:outline-none focus:border-brand-500 cursor-pointer">
+                        <option value="followersDesc">粉丝数从高到低</option>
+                        <option value="followersAsc">粉丝数从低到高</option>
+                        <option value="nameAsc">博主名称 (A → Z)</option>
+                        <option value="dateDesc">最新归档</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none text-xs"></i>
+                </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="flex gap-2 overflow-x-auto scrollbar-hide pb-2" id="filterTabs">
+                <button data-filter="all" class="filter-btn active px-4 py-1.5 rounded-full text-sm font-medium bg-brand-600 text-white transition whitespace-nowrap">全部 <span class="opacity-70 text-xs" id="count-all">0</span></button>
+                <button data-filter="popular" class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition whitespace-nowrap">热度排行 <span class="opacity-70 text-xs" id="count-popular">0</span></button>
+                <button data-filter="verified" class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition whitespace-nowrap">蓝标认证 <span class="opacity-70 text-xs" id="count-verified">0</span></button>
+                <button data-filter="top" class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition whitespace-nowrap">Top 头部 <span class="opacity-70 text-xs" id="count-top">0</span></button>
+                <button data-filter="new" class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition whitespace-nowrap">最新归档 <span class="opacity-70 text-xs" id="count-new">0</span></button>
+            </div>
+        </section>
+
+        <!-- Creator Grid -->
+        <section>
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-white">创作者画廊 <span class="text-slate-500 text-sm font-normal ml-2" id="result-count"></span></h3>
+            </div>
+            <div id="creatorGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <!-- Cards injected by JS -->
+            </div>
+            <div id="emptyState" class="hidden text-center py-16">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-800 mb-4">
+                    <i class="fa-solid fa-wind text-2xl text-slate-500"></i>
+                </div>
+                <h3 class="text-lg font-medium text-white">未找到匹配的博主</h3>
+                <p class="text-slate-400 text-sm mt-1">没有匹配到任何符合搜索条件或分类的博主，您可以尝试清除关键词。</p>
+                <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm transition">重置筛选条件</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-dark-900 py-6 mt-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-500 text-sm">© 2026 MuseX · X Creator Discovery</p>
+            <div class="flex items-center justify-center gap-4 mt-2 text-xs text-slate-600">
+                <span><kbd class="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700 text-slate-400">/</kbd> 搜索</span>
+                <span><kbd class="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700 text-slate-400">R</kbd> 随机推荐</span>
+                <span><kbd class="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700 text-slate-400">ESC</kbd> 关闭弹窗</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="profileModal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg p-4">
+            <div class="glass rounded-2xl p-6 relative fade-in shadow-2xl shadow-brand-500/10">
+                <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div id="modalContent" class="text-center">
+                    <!-- Modal content injected by JS -->
+                </div>
+            </div>
+        </div>
     </div>
-    <button class="ghost mobile-menu" onclick="randomPick()">Random ↗</button>
-  </div>
-</header>
 
-<main class="container">
-  <section class="hero">
-    <div class="eyebrow">X Creator Discovery</div>
-    <h1>MuseX</h1>
-    <p>Discover interesting creators, profiles and personalities on X — curated into a clean, searchable digital gallery.</p>
-    <div class="search">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-      <input id="search" placeholder="Search creators, @username or keywords..." autocomplete="off">
-      <button onclick="runSearch()">Search</button>
-    </div>
-  </section>
+    <script>
+        // --- 1. Mock Data (模拟数据) ---
+        const creators = [
+            { id: 1, name: "Naimi", handle: "@Anaimiya", followers: "4.3M", fansNum: 4300000, verified: true, category: "top", bio: "Digital Artist & Content Creator. All my works linked below.", link: "#", location: "Tokyo, JP", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Naimi&backgroundColor=b6e3f4" },
+            { id: 2, name: "Kunkun", handle: "@kunkunkun188", followers: "1.9M", fansNum: 1900000, verified: true, category: "top", bio: "Daily life and creative updates. Check my links for more exclusive content.", link: "#", location: "Malaysia", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Kunkun&backgroundColor=c0aede" },
+            { id: 3, name: "Joycelyn", handle: "@Joycelyn52011", followers: "1.1M", fansNum: 1100000, verified: true, category: "top", bio: "Lifestyle creator. Unlock more exclusive content and updates.", link: "#", location: "Taipei, TW", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Joycelyn&backgroundColor=ffdfbf" },
+            { id: 4, name: "Pupu", handle: "@waifupupu", followers: "3.3M", fansNum: 3300000, verified: true, category: "top", bio: "You look lonely, I can fix that. Official links and updates below.", link: "#", location: "Cyber City", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Pupu&backgroundColor=ffd5dc" },
+            { id: 5, name: "June", handle: "@SpicygumL", followers: "1.8M", fansNum: 1800000, verified: true, category: "popular", bio: "Check my links. Updates and DM info available below.", link: "#", location: "Seoul, KR", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=June&backgroundColor=d1d4f9" },
+            { id: 6, name: "Ququ", handle: "@ququ999999", followers: "1.2M", fansNum: 1200000, verified: true, category: "popular", bio: "Original content creator. Check linktree for all contacts.", link: "#", location: "Unknown", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ququ&backgroundColor=c0aede" },
+            { id: 7, name: "Fortune", handle: "@FortuneCutie00", followers: "1.3M", fansNum: 1300000, verified: true, category: "top", bio: "Your asian petite fantasy. Official links and daily updates.", link: "#", location: "Online", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Fortune&backgroundColor=b6e3f4" },
+            { id: 8, name: "Yuki", handle: "@SxeYuki", followers: "1.1M", fansNum: 1100000, verified: true, category: "popular", bio: "Daily updates. Beware of fake accounts. Only trust this handle.", link: "#", location: "Traveling", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Yuki&backgroundColor=ffdfbf" },
+            { id: 9, name: "Kitty", handle: "@kitty2002102", followers: "961K", fansNum: 961000, verified: true, category: "verified", bio: "Original content. 19 years old. Check linktree for more.", link: "#", location: "Online", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Kitty&backgroundColor=ffd5dc" },
+            { id: 10, name: "Minmin", handle: "@wenwen0006", followers: "7.9K", fansNum: 7900, verified: false, category: "new", bio: "Freelance model. Natural and authentic. DM for collabs.", link: "#", location: "Guangzhou, CN", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Minmin&backgroundColor=d1d4f9" },
+            { id: 11, name: "Jingxiang", handle: "@DLjingxiang", followers: "1.0M", fansNum: 1000000, verified: true, category: "popular", bio: "Lifestyle and fashion content creator.", link: "#", location: "Shanghai, CN", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jingxiang&backgroundColor=c0aede" },
+            { id: 12, name: "HK Doll", handle: "@HongKong_Doll", followers: "3.2M", fansNum: 3200000, verified: true, category: "top", bio: "All Works & DM subscription guide. Official links only.", link: "#", location: "Hong Kong", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=HKDoll&backgroundColor=b6e3f4" }
+        ];
 
-  <section class="stats">
-    <div class="stat"><b id="total">0</b><span>CREATORS INDEXED</span></div>
-    <div class="stat"><b id="verifiedCount">0</b><span>VERIFIED PROFILES</span></div>
-    <div class="stat"><b id="topFollowers">0</b><span>TOP FOLLOWERS</span></div>
-  </section>
+        // --- 2. State Management ---
+        let state = {
+            filter: 'all',
+            sort: 'followersDesc',
+            search: ''
+        };
 
-  <div class="section-head">
-    <div><h2>Today's Feature</h2><p>One profile worth discovering</p></div>
-    <button class="ghost" onclick="randomPick()">↻ Change</button>
-  </div>
-  <section id="featured" class="featured"></section>
+        // --- 3. Helper Functions ---
+        function parseFans(fansStr) {
+            if (fansStr.includes('M')) return parseFloat(fansStr) * 1000000;
+            if (fansStr.includes('K')) return parseFloat(fansStr) * 1000;
+            return parseInt(fansStr) || 0;
+        }
 
-  <div class="section-head">
-    <div><h2>Creator Gallery</h2><p id="resultCount"></p></div>
-  </div>
-  <div class="tabs" id="tabs">
-    <button class="active" data-filter="all">All</button>
-    <button data-filter="popular">Popular</button>
-    <button data-filter="verified">Verified</button>
-    <button data-filter="creator">Creator</button>
-    <button data-filter="fashion">Fashion</button>
-    <button data-filter="art">Art</button>
-    <button data-filter="tech">Tech</button>
-    <button data-filter="lifestyle">Lifestyle</button>
-  </div>
-  <section id="grid" class="grid"></section>
-  <div id="empty" class="empty">No creators found. Try another keyword.</div>
-</main>
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(0) + 'K';
+            return num.toString();
+        }
 
-<footer>
-  <div class="container footerrow">
-    <span>© 2026 MuseX · X Creator Discovery</span>
-    <span>Press <kbd>/</kbd> to search · <kbd>R</kbd> randomize</span>
-  </div>
-</footer>
+        // --- 4. Render Functions ---
+        function renderStats() {
+            document.getElementById('stat-total').textContent = creators.length.toLocaleString();
+            document.getElementById('stat-verified').textContent = creators.filter(c => c.verified).length.toLocaleString();
+            document.getElementById('stat-top').textContent = creators.filter(c => c.category === 'top').length.toLocaleString();
+            const maxFans = Math.max(...creators.map(c => c.fansNum));
+            document.getElementById('stat-max-fans').textContent = formatNumber(maxFans);
+            
+            // Update tab counts
+            document.getElementById('count-all').textContent = creators.length;
+            document.getElementById('count-popular').textContent = creators.filter(c => c.category === 'popular').length;
+            document.getElementById('count-verified').textContent = creators.filter(c => c.verified).length;
+            document.getElementById('count-top').textContent = creators.filter(c => c.category === 'top').length;
+            document.getElementById('count-new').textContent = creators.filter(c => c.category === 'new').length;
+        }
 
-<div id="modal" class="modal" onclick="if(event.target===this)closeModal()">
-  <div class="modalbox">
-    <div class="modalhead"><strong>Creator Profile</strong><button class="close" onclick="closeModal()">×</button></div>
-    <div id="modalContent"></div>
-  </div>
-</div>
+        function renderSpotlight() {
+            const randomCreator = creators[Math.floor(Math.random() * creators.length)];
+            const container = document.getElementById('spotlight-container');
+            container.innerHTML = `
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                    <img src="${randomCreator.avatar}" alt="${randomCreator.name}" class="w-20 h-20 rounded-full border-2 border-brand-500 shadow-lg shadow-brand-500/20">
+                    <div class="flex-grow">
+                        <div class="flex items-center gap-2 mb-1">
+                            <h3 class="text-xl font-bold text-white">${randomCreator.name}</h3>
+                            ${randomCreator.verified ? '<i class="fa-solid fa-certificate text-blue-400 text-sm" title="Verified"></i>' : ''}
+                            <span class="text-xs px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-400 border border-brand-500/30">${randomCreator.category.toUpperCase()}</span>
+                        </div>
+                        <p class="text-slate-400 text-sm mb-2">${randomCreator.handle} · <span class="text-white font-medium">${randomCreator.followers}</span> 关注者</p>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-3">${randomCreator.bio}</p>
+                        <div class="flex items-center gap-4 text-xs text-slate-500">
+                            ${randomCreator.location ? `<span><i class="fa-solid fa-location-dot mr-1"></i>${randomCreator.location}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="flex gap-3 w-full sm:w-auto">
+                        <button onclick="openModal(${randomCreator.id})" class="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-sm font-medium transition">时光档案</button>
+                        <a href="${randomCreator.link}" target="_blank" class="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-white text-dark-900 hover:bg-slate-200 text-sm font-bold transition text-center">访问 X <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i></a>
+                    </div>
+                </div>
+            `;
+        }
 
-<script>
-const creators=[
- {name:"Luna",handle:"@luna_demo",followers:1280000,verified:true,cat:["creator","fashion"],bio:"Digital creator · fashion · lifestyle",img:"https://i.pravatar.cc/300?img=47"},
- {name:"Mia",handle:"@mia_demo",followers:842000,verified:true,cat:["creator","lifestyle"],bio:"Creator & photographer · Tokyo / NYC",img:"https://i.pravatar.cc/300?img=32"},
- {name:"Avery",handle:"@avery_demo",followers:618000,verified:false,cat:["art","creator"],bio:"Visual artist · digital culture · design",img:"https://i.pravatar.cc/300?img=44"},
- {name:"Sora",handle:"@sora_demo",followers:493000,verified:true,cat:["fashion","lifestyle"],bio:"Fashion, travel and everyday moments.",img:"https://i.pravatar.cc/300?img=49"},
- {name:"Nina",handle:"@nina_demo",followers:356000,verified:false,cat:["creator","art"],bio:"Illustration · photography · creative life",img:"https://i.pravatar.cc/300?img=25"},
- {name:"Eva",handle:"@eva_demo",followers:281000,verified:true,cat:["fashion","creator"],bio:"Independent creator · style & culture",img:"https://i.pravatar.cc/300?img=23"},
- {name:"Mika",handle:"@mika_demo",followers:195000,verified:false,cat:["tech","creator"],bio:"Technology, AI and internet culture.",img:"https://i.pravatar.cc/300?img=45"},
- {name:"Iris",handle:"@iris_demo",followers:143000,verified:false,cat:["art","lifestyle"],bio:"Artist / photographer / visual storyteller",img:"https://i.pravatar.cc/300?img=48"},
- {name:"Zoey",handle:"@zoey_demo",followers:97000,verified:true,cat:["lifestyle","creator"],bio:"Lifestyle creator · books · travel",img:"https://i.pravatar.cc/300?img=31"}
-];
+        function getFilteredAndSortedCreators() {
+            let result = [...creators];
+            
+            // Filter
+            if (state.filter === 'popular') result = result.filter(c => c.category === 'popular' || c.fansNum > 1000000);
+            else if (state.filter === 'verified') result = result.filter(c => c.verified);
+            else if (state.filter === 'top') result = result.filter(c => c.category === 'top');
+            else if (state.filter === 'new') result = result.filter(c => c.category === 'new');
 
-let currentFilter="all";
-const fmt=n=>n>=1e6?(n/1e6).toFixed(2)+"M":n>=1e3?(n/1e3).toFixed(n>=1e5?0:1)+"K":n;
+            // Search
+            if (state.search) {
+                const q = state.search.toLowerCase();
+                result = result.filter(c => c.name.toLowerCase().includes(q) || c.handle.toLowerCase().includes(q) || c.bio.toLowerCase().includes(q));
+            }
 
-function renderStats(){
- document.getElementById("total").textContent=creators.length;
- document.getElementById("verifiedCount").textContent=creators.filter(x=>x.verified).length;
- document.getElementById("topFollowers").textContent=fmt(Math.max(...creators.map(x=>x.followers)));
-}
-function matches(c,filter){
- if(filter==="all")return true;
- if(filter==="popular")return c.followers>=300000;
- if(filter==="verified")return c.verified;
- return c.cat.includes(filter);
-}
-function render(){
- const q=document.getElementById("search").value.trim().toLowerCase();
- let arr=creators.filter(c=>matches(c,currentFilter));
- if(q)arr=arr.filter(c=>(c.name+" "+c.handle+" "+c.bio+" "+c.cat.join(" ")).toLowerCase().includes(q));
- const grid=document.getElementById("grid");
- grid.innerHTML=arr.map((c,i)=>`
-  <article class="card" onclick="openModal(${creators.indexOf(c)})">
-   <div class="cover"><span>${c.verified?"✓ VERIFIED":"CREATOR"}</span></div>
-   <div class="cardbody">
-    <img class="avatar" src="${c.img}" alt="">
-    <div class="name">${c.name}${c.verified?" ✓":""}</div>
-    <div class="handle2">${c.handle}</div>
-    <div class="cardbio">${c.bio}</div>
-    <div class="cardfoot"><span class="followers">${fmt(c.followers)} followers</span><span class="view">View profile →</span></div>
-   </div>
-  </article>`).join("");
- document.getElementById("empty").style.display=arr.length?"none":"block";
- document.getElementById("resultCount").textContent=arr.length+" profiles";
-}
-function renderFeatured(c){
- document.getElementById("featured").innerHTML=`
- <img class="featured-avatar" src="${c.img}" alt="">
- <div>
-   <div class="eyebrow">FEATURED CREATOR</div>
-   <h3>${c.name}</h3><div class="handle">${c.handle} · ${fmt(c.followers)} followers</div>
-   <div class="meta">${c.cat.map(x=>`<span class="badge">${x}</span>`).join("")}${c.verified?'<span class="badge">✓ Verified</span>':''}</div>
-   <div class="bio">${c.bio}</div>
- </div>
- <button class="primary" onclick="openModal(${creators.indexOf(c)})">View on X ↗</button>`;
-}
-function filterCards(filter,btn){
- currentFilter=filter;
- document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("active",b.dataset.filter===filter));
- render();
-}
-function randomPick(){renderFeatured(creators[Math.floor(Math.random()*creators.length)])}
-function runSearch(){render();document.getElementById("grid").scrollIntoView({behavior:"smooth",block:"start"})}
-function openModal(i){
- const c=creators[i];
- document.getElementById("modalContent").innerHTML=`
- <div class="detail"><img src="${c.img}"><div><h3>${c.name}</h3><span class="handle">${c.handle}</span><p>${fmt(c.followers)} followers · ${c.verified?"Verified":"Creator"}</p></div></div>
- <p style="color:#aab0ba;line-height:1.8">${c.bio}</p>
- <div class="meta">${c.cat.map(x=>`<span class="badge">${x}</span>`).join("")}</div>
- <a class="primary" style="margin-top:8px" href="https://x.com/" target="_blank" rel="noopener">Open X ↗</a>`;
- document.getElementById("modal").classList.add("open");
-}
-function closeModal(){document.getElementById("modal").classList.remove("open")}
-document.getElementById("search").addEventListener("input",render);
-document.getElementById("search").addEventListener("keydown",e=>{if(e.key==="Enter")runSearch()});
-document.getElementById("tabs").addEventListener("click",e=>{if(e.target.dataset.filter)filterCards(e.target.dataset.filter,e.target)});
-document.addEventListener("keydown",e=>{
- if(e.key==="/" && document.activeElement!==document.getElementById("search")){e.preventDefault();document.getElementById("search").focus()}
- if(e.key.toLowerCase()==="r" && document.activeElement!==document.getElementById("search"))randomPick();
- if(e.key==="Escape")closeModal();
-});
-renderStats();render();randomPick();
-</script>
+            // Sort
+            result.sort((a, b) => {
+                if (state.sort === 'followersDesc') return b.fansNum - a.fansNum;
+                if (state.sort === 'followersAsc') return a.fansNum - b.fansNum;
+                if (state.sort === 'nameAsc') return a.name.localeCompare(b.name);
+                if (state.sort === 'dateDesc') return b.id - a.id;
+                return 0;
+            });
+
+            return result;
+        }
+
+        function renderGrid() {
+            const result = getFilteredAndSortedCreators();
+            const grid = document.getElementById('creatorGrid');
+            const emptyState = document.getElementById('emptyState');
+            const resultCount = document.getElementById('result-count');
+
+            resultCount.textContent = `共呈现 ${result.length} 位博主归档`;
+
+            if (result.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.innerHTML = result.map(c => `
+                <div class="glass rounded-xl p-5 card-hover cursor-pointer group" onclick="openModal(${c.id})">
+                    <div class="flex items-start justify-between mb-3">
+                        <img src="${c.avatar}" alt="${c.name}" class="w-12 h-12 rounded-full border border-slate-700 group-hover:border-brand-500 transition">
+                        ${c.verified ? '<i class="fa-solid fa-certificate text-blue-400" title="Verified"></i>' : ''}
+                    </div>
+                    <h4 class="font-bold text-white text-lg mb-0.5 group-hover:text-brand-400 transition">${c.name}</h4>
+                    <p class="text-slate-500 text-sm mb-3">${c.handle} · <span class="text-slate-300">${c.followers}</span> 关注者</p>
+                    <p class="text-slate-400 text-sm line-clamp-2 mb-4 h-10">${c.bio}</p>
+                    <div class="flex gap-2 pt-3 border-t border-slate-700/50">
+                        <button class="flex-1 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 transition">档案</button>
+                        <a href="${c.link}" target="_blank" onclick="event.stopPropagation()" class="flex-1 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-xs font-bold text-white text-center transition">访问 X</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- 5. Modal Functions ---
+        function openModal(id) {
+            const c = creators.find(x => x.id === id);
+            if (!c) return;
+            
+            document.getElementById('modalContent').innerHTML = `
+                <img src="${c.avatar}" alt="${c.name}" class="w-24 h-24 rounded-full border-4 border-slate-800 mx-auto mb-4 shadow-xl">
+                <h2 class="text-2xl font-bold text-white mb-1">${c.name} ${c.verified ? '<i class="fa-solid fa-certificate text-blue-400 text-lg ml-1"></i>' : ''}</h2>
+                <p class="text-brand-400 font-medium mb-4">${c.handle}</p>
+                
+                <div class="flex justify-center gap-6 mb-6 text-sm">
+                    <div class="text-center">
+                        <div class="font-bold text-white text-lg">${c.followers}</div>
+                        <div class="text-slate-500 text-xs">关注者</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="font-bold text-white text-lg">${c.category.toUpperCase()}</div>
+                        <div class="text-slate-500 text-xs">分类</div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/50 rounded-xl p-4 mb-6 text-left">
+                    <p class="text-slate-300 text-sm leading-relaxed mb-2">${c.bio}</p>
+                    ${c.location ? `<p class="text-slate-500 text-xs"><i class="fa-solid fa-location-dot mr-1"></i>${c.location}</p>` : ''}
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <a href="${c.link}" target="_blank" class="flex-1 py-3 rounded-xl bg-white text-dark-900 font-bold hover:bg-slate-200 transition text-center">
+                        直达 X 个人主页 <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+                    </a>
+                    <button onclick="changeSpotlight(); closeModal();" class="flex-1 py-3 rounded-xl bg-slate-800 text-white font-medium hover:bg-slate-700 border border-slate-700 transition">
+                        再抽一次 (按 R)
+                    </button>
+                </div>
+                <p class="text-slate-600 text-xs mt-4">按 ESC 或点击任意空白处关闭</p>
+            `;
+            document.getElementById('profileModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('profileModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // --- 6. Event Listeners ---
+        function changeSpotlight() {
+            // Add a quick fade out/in effect
+            const container = document.getElementById('spotlight-container');
+            container.style.opacity = '0';
+            setTimeout(() => {
+                renderSpotlight();
+                container.style.opacity = '1';
+            }, 200);
+        }
+
+        function resetFilters() {
+            state.filter = 'all';
+            state.search = '';
+            document.getElementById('searchInput').value = '';
+            updateActiveTab();
+            renderGrid();
+        }
+
+        function updateActiveTab() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.filter === state.filter) {
+                    btn.classList.remove('bg-slate-800', 'text-slate-300', 'border', 'border-slate-700');
+                    btn.classList.add('bg-brand-600', 'text-white');
+                } else {
+                    btn.classList.add('bg-slate-800', 'text-slate-300', 'border', 'border-slate-700');
+                    btn.classList.remove('bg-brand-600', 'text-white');
+                }
+            });
+        }
+
+        // Tab clicks
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                state.filter = btn.dataset.filter;
+                updateActiveTab();
+                renderGrid();
+            });
+        });
+
+        // Search input
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            state.search = e.target.value;
+            renderGrid();
+        });
+
+        // Sort select
+        document.getElementById('sortSelect').addEventListener('change', (e) => {
+            state.sort = e.target.value;
+            renderGrid();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+            if ((e.key === 'r' || e.key === 'R') && document.activeElement.tagName !== 'INPUT' && document.getElementById('profileModal').classList.contains('hidden')) {
+                e.preventDefault();
+                changeSpotlight();
+            }
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // --- 7. Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderStats();
+            renderSpotlight();
+            renderGrid();
+        });
+    </script>
 </body>
 </html>
