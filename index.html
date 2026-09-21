@@ -29,6 +29,8 @@
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .avatar-loading { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
@@ -45,7 +47,7 @@
                         X 博主精选画廊
                     </h1>
                     <p class="text-sm text-slate-400 mt-1">
-                        高品质 X (Twitter) 创作者画廊 · 真实链接 · 实时探索与智能推荐 
+                        高品质 X (Twitter) 创作者画廊 · 真实头像 · 真实链接
                     </p>
                 </div>
                 <div class="flex items-center gap-3">
@@ -74,7 +76,7 @@
                 <div class="text-xs text-slate-400 uppercase tracking-wider mt-1">Top 头部</div>
             </div>
             <div class="glass rounded-xl p-4 text-center">
-                <div class="text-2xl font-bold text-emerald-400">150+</div>
+                <div class="text-2xl font-bold text-emerald-400">172+</div>
                 <div class="text-xs text-slate-400 uppercase tracking-wider mt-1">收录博主</div>
             </div>
         </div>
@@ -174,7 +176,7 @@
     </div>
 
     <script>
-        // --- 1. 真实链接数据源 (由您提供的列表自动生成) ---
+        // --- 1. 真实链接数据源 ---
         const rawLinks = `
 https://x.com/Anaimiya
 https://x.com/waifupupu
@@ -350,27 +352,26 @@ https://x.com/wodemm333
 https://x.com/L74992321
         `.trim().split('\n').map(link => link.trim()).filter(link => link.length > 0);
 
-        // 动态生成创作者数据，确保链接 100% 真实
+        // 动态生成创作者数据，使用 unAvatar.io 获取真实 X 头像
         const creators = rawLinks.map((link, index) => {
             const username = link.replace('https://x.com/', '').replace('@', '');
-            // 智能分类：前 20 个为 Top，中间 50 个为 Popular，其余为 Verified
             let category = 'verified';
             if (index < 20) category = 'top';
             else if (index < 70) category = 'popular';
 
             return {
                 id: index + 1,
-                name: username, // 显示为用户名 (您可后续手动修改为中文名)
+                name: username,
                 handle: `@${username}`,
                 followers: "N/A", 
                 fansNum: 0,
                 verified: category === 'top', 
                 category: category,
-                bio: "Click to visit this creator's authentic X (Twitter) profile.", 
-                link: link, // 👈 核心：您提供的真实跳转链接！
+                bio: "X Creator - Click to visit profile", 
+                link: link,
                 location: "X Platform",
-                // 使用 UI Avatars 自动生成带用户名的精美头像
-                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=random&color=fff&size=128&bold=true`
+                // 🔥 使用 unAvatar.io API 自动获取真实 X 头像
+                avatar: `https://unavatar.io/twitter/${username}?fallback=https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=random&color=fff&size=128&bold=true`
             };
         });
 
@@ -397,7 +398,8 @@ https://x.com/L74992321
             const container = document.getElementById('spotlight-container');
             container.innerHTML = `
                 <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                    <img src="${randomCreator.avatar}" alt="${randomCreator.name}" class="w-20 h-20 rounded-full border-2 border-brand-500 shadow-lg shadow-brand-500/20">
+                    <img src="${randomCreator.avatar}" alt="${randomCreator.name}" class="w-20 h-20 rounded-full border-2 border-brand-500 shadow-lg shadow-brand-500/20" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold hidden">${randomCreator.name.charAt(0).toUpperCase()}</div>
                     <div class="flex-grow">
                         <div class="flex items-center gap-2 mb-1">
                             <h3 class="text-xl font-bold text-white">${randomCreator.name}</h3>
@@ -453,7 +455,8 @@ https://x.com/L74992321
             grid.innerHTML = result.map(c => `
                 <div class="glass rounded-xl p-5 card-hover cursor-pointer group" onclick="openModal(${c.id})">
                     <div class="flex items-start justify-between mb-3">
-                        <img src="${c.avatar}" alt="${c.name}" class="w-12 h-12 rounded-full border border-slate-700 group-hover:border-brand-500 transition">
+                        <img src="${c.avatar}" alt="${c.name}" class="w-12 h-12 rounded-full border border-slate-700 group-hover:border-brand-500 transition" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center text-white text-sm font-bold hidden">${c.name.charAt(0).toUpperCase()}</div>
                         ${c.verified ? '<i class="fa-solid fa-certificate text-blue-400" title="Verified"></i>' : ''}
                     </div>
                     <h4 class="font-bold text-white text-lg mb-0.5 group-hover:text-brand-400 transition truncate">${c.name}</h4>
@@ -473,7 +476,8 @@ https://x.com/L74992321
             if (!c) return;
             
             document.getElementById('modalContent').innerHTML = `
-                <img src="${c.avatar}" alt="${c.name}" class="w-24 h-24 rounded-full border-4 border-slate-800 mx-auto mb-4 shadow-xl">
+                <img src="${c.avatar}" alt="${c.name}" class="w-24 h-24 rounded-full border-4 border-slate-800 mx-auto mb-4 shadow-xl" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4 hidden">${c.name.charAt(0).toUpperCase()}</div>
                 <h2 class="text-2xl font-bold text-white mb-1">${c.name} ${c.verified ? '<i class="fa-solid fa-certificate text-blue-400 text-lg ml-1"></i>' : ''}</h2>
                 <p class="text-brand-400 font-medium mb-4">${c.handle}</p>
                 
