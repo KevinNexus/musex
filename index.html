@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MuseX — X Creator Discovery</title>
+    <title>MuseX · 尤物图鉴 | 资源公社旗下</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -29,8 +29,6 @@
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .avatar-loading { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
@@ -44,10 +42,10 @@
                         <span class="text-xs font-bold tracking-widest text-brand-500 uppercase">Curated Discovery Vault</span>
                     </div>
                     <h1 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-                        X 博主精选画廊
+                        MuseX · 尤物图鉴
                     </h1>
                     <p class="text-sm text-slate-400 mt-1">
-                        高品质 X (Twitter) 创作者画廊 · 真实头像 · 真实链接
+                        <span class="text-brand-500 font-medium">资源公社旗下</span> · 高品质 X 创作者视觉档案馆
                     </p>
                 </div>
                 <div class="flex items-center gap-3">
@@ -131,7 +129,7 @@
         <!-- Creator Grid -->
         <section>
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-white">创作者画廊 <span class="text-slate-500 text-sm font-normal ml-2" id="result-count"></span></h3>
+                <h3 class="text-lg font-semibold text-white">尤物画廊 <span class="text-slate-500 text-sm font-normal ml-2" id="result-count"></span></h3>
             </div>
             <div id="creatorGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 <!-- Cards injected by JS -->
@@ -151,7 +149,7 @@
     <!-- Footer -->
     <footer class="border-t border-slate-800 bg-dark-900 py-6 mt-8">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-slate-500 text-sm">© 2026 MuseX · X Creator Discovery</p>
+            <p class="text-slate-500 text-sm">© 2026 MuseX · 资源公社旗下 · X Creator Discovery</p>
             <div class="flex items-center justify-center gap-4 mt-2 text-xs text-slate-600">
                 <span><kbd class="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700 text-slate-400">/</kbd> 搜索</span>
                 <span><kbd class="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700 text-slate-400">R</kbd> 随机推荐</span>
@@ -370,7 +368,7 @@ https://x.com/L74992321
                 bio: "X Creator - Click to visit profile", 
                 link: link,
                 location: "X Platform",
-                // 🔥 使用 unAvatar.io API 自动获取真实 X 头像
+                // 使用 unAvatar.io API 自动获取真实 X 头像
                 avatar: `https://unavatar.io/twitter/${username}?fallback=https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=random&color=fff&size=128&bold=true`
             };
         });
